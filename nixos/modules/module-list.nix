@@ -174,6 +174,7 @@
   ./programs/criu.nix
   ./programs/darling.nix
   ./programs/dconf.nix
+  ./programs/ddcutil.nix
   ./programs/digitalbitbox/default.nix
   ./programs/direnv.nix
   ./programs/dmrconfig.nix

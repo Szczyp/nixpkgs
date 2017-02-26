@@ -36,8 +36,13 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
+  postInstall = ''
+    mkdir -p $out/lib/udev/rules.d
+    cp $out/share/ddcutil/data/45-ddcutil-i2c.rules $out/lib/udev/rules.d
+  '';
+
   meta = with lib; {
-    homepage = "http://www.ddcutil.com/";
+    homepage    = "http://www.ddcutil.com/";
     description = "Query and change Linux monitor settings using DDC/CI and USB";
     license = licenses.gpl2Plus;
     platforms = platforms.linux;
@@ -46,4 +51,3 @@ stdenv.mkDerivation rec {
     mainProgram = "ddcutil";
   };
 }
-
