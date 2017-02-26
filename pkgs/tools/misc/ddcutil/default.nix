@@ -23,7 +23,12 @@ stdenv.mkDerivation rec {
     glib libusb1 libdrm xorg.libXrandr
   ];
 
-  meta = with lib; {
+  postInstall = ''
+    mkdir -p $out/lib/udev/rules.d
+    cp $out/share/ddcutil/data/45-ddcutil-i2c.rules $out/lib/udev/rules.d
+  '';
+
+  meta = with stdenv.lib; {
     homepage    = "http://www.ddcutil.com/";
     description = "Query and change Linux monitor settings using DDC/CI and USB";
     license     = licenses.gpl2;
@@ -31,4 +36,3 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ rnhmjoj ];
   };
 }
-

@@ -127,6 +127,7 @@
   ./programs/command-not-found/command-not-found.nix
   ./programs/criu.nix
   ./programs/dconf.nix
+  ./programs/ddcutil.nix
   ./programs/digitalbitbox/default.nix
   ./programs/dmrconfig.nix
   ./programs/droidcam.nix
