@@ -167,6 +167,15 @@ in {
       '';
     };
 
+    inactiveDim = mkOption {
+      type = floatBetween 0.1 1;
+      default = 0.1;
+      example = 0.8;
+      description = ''
+        Dim of inactive windows.
+      '';
+    };
+
     menuOpacity = mkOption {
       type = floatBetween 0 1;
       default = 1.0;
@@ -288,6 +297,8 @@ in {
       # opacity
       active-opacity   = cfg.activeOpacity;
       inactive-opacity = cfg.inactiveOpacity;
+
+      inactive-dim     = cfg.inactiveDim;
 
       wintypes         = cfg.wintypes;
 
