@@ -6726,6 +6726,8 @@ in
 
   mailsend = callPackage ../tools/networking/mailsend { };
 
+  mailsend-go = callPackage ../tools/networking/mailsend-go { };
+
   mailpile = callPackage ../applications/networking/mailreaders/mailpile { };
 
   mailutils = callPackage ../tools/networking/mailutils {
