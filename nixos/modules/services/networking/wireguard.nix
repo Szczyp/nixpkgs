@@ -61,6 +61,18 @@ let
         '';
       };
 
+      mtu = mkOption {
+        default = null;
+        type = with types; nullOr int;
+        example = 1400;
+        description = ''
+          If not specified, the MTU is automatically determined
+          from the endpoint addresses or the system default route, which is usually
+          a sane choice. However, to manually specify an MTU to override this
+          automatic discovery, this value may be specified explicitly.
+        '';
+      };
+
       preSetup = mkOption {
         example = literalExample ''
           ${pkgs.iproute}/bin/ip netns add foo
@@ -351,6 +363,9 @@ let
           ${concatMapStringsSep "\n" (ip:
             "${ipPostMove} address add ${ip} dev ${name}"
           ) values.ips}
+
+          ${optionalString (values.mtu != null)
+            "${ipPostMove} link set mtu ${toString values.mtu} dev ${name}"}
 
           ${wg} set ${name} private-key ${privKey} ${
             optionalString (values.listenPort != null) " listen-port ${toString values.listenPort}"}
