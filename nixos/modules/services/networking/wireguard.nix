@@ -62,6 +62,13 @@ let
         '';
       };
 
+      nameservers = mkOption {
+        example = [ "192.168.2.1" ];
+        default = [];
+        type = with types; listOf str;
+        description = "The IP addresses of DNS servers to configure.";
+      };
+
       preSetup = mkOption {
         example = literalExpression ''"''${pkgs.iproute2}/bin/ip netns add foo"'';
         default = "";
@@ -474,7 +481,7 @@ let
         wants = [ "network.target" ];
         before = [ "network.target" ];
         environment.DEVICE = name;
-        path = with pkgs; [ kmod iproute2 wireguard-tools ];
+        path = with pkgs; [ kmod iproute2 wireguard-tools openresolv ];
 
         serviceConfig = {
           Type = "oneshot";
@@ -499,13 +506,19 @@ let
             ++ optional (values.fwMark != null) ''fwmark "${values.fwMark}"''
             ))
             ''${ipPostMove} link set up dev "${name}"''
+            ''${concatMapStringsSep "\n" (ns: "printf 'nameserver ${ns}' | resolvconf -a ${name} -m 0") values.nameservers}''
             values.postSetup
           ]
           );
 
         postStop = ''
           ${values.preShutdown}
+
+          ${optionalString (values.nameservers != [])
+            "resolvconf -d ${name}"}
+
           ${ipPostMove} link del dev "${name}"
+
           ${values.postShutdown}
         '';
       };
