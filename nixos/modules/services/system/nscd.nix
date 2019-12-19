@@ -141,6 +141,7 @@ in
             RuntimeDirectory = "nscd";
             PIDFile = "/run/nscd/nscd.pid";
             Restart = "always";
+            StartLimitBurst = 10;
             ExecReload =
               lib.optionals (!cfg.enableNsncd) [
                 "${cfg.package}/bin/nscd --invalidate passwd"
