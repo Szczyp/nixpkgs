@@ -73,6 +73,7 @@ in
             RuntimeDirectory = "nscd";
             PIDFile = "/run/nscd/nscd.pid";
             Restart = "always";
+            StartLimitBurst = 10;
             ExecReload =
               [ "${nscd}/sbin/nscd --invalidate passwd"
                 "${nscd}/sbin/nscd --invalidate group"
